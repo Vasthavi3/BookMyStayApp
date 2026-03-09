@@ -9,5 +9,17 @@ public class HotelBookingApp {
 
         System.out.println("\nRoom Inventory:");
         inventory.displayInventory();
+
+        String searchRoom = "Single Room";
+
+        System.out.println("\nSearching for room: " + searchRoom);
+
+        int available = inventory.getAvailability(searchRoom);
+
+        if (available > 0) {
+            System.out.println("Available Rooms: " + available);
+        } else {
+            System.out.println("Room not available");
+        }
     }
 }
