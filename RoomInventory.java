@@ -18,6 +18,7 @@ public class RoomInventory {
     }
 
     public void displayInventory() {
+
         for (String roomType : inventory.keySet()) {
             System.out.println(roomType + " Available: " + inventory.get(roomType));
         }

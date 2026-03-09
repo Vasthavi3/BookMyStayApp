@@ -1,30 +1,25 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class HotelBookingApp {
 
     public static void main(String[] args) {
 
         System.out.println("Welcome to Book My Stay");
-        System.out.println("Hotel Booking System v1.0");
+        System.out.println("Hotel Booking Management System");
 
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        RoomInventory inventory = new RoomInventory();
 
-        Map<String, Integer> inventory = new HashMap<>();
+        System.out.println("\nRoom Inventory:");
+        inventory.displayInventory();
 
-        inventory.put("Single Room", 5);
-        inventory.put("Double Room", 3);
-        inventory.put("Suite Room", 2);
+        String searchRoom = "Single Room";
 
-        single.displayRoomDetails();
-        System.out.println("Available: " + inventory.get("Single Room"));
+        System.out.println("\nSearching for room: " + searchRoom);
 
-        doubleRoom.displayRoomDetails();
-        System.out.println("Available: " + inventory.get("Double Room"));
+        int available = inventory.getAvailability(searchRoom);
 
-        suite.displayRoomDetails();
-        System.out.println("Available: " + inventory.get("Suite Room"));
+        if (available > 0) {
+            System.out.println("Available Rooms: " + available);
+        } else {
+            System.out.println("Room not available");
+        }
     }
 }
