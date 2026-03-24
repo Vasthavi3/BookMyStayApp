@@ -25,7 +25,7 @@ class RoomInventory {
         return false;
     }
 
-    // ✅ Display inventory (UC3)
+    // ✅ UC3: Display inventory
     public void displayInventory() {
 
         System.out.println("Room Inventory:");
@@ -35,7 +35,7 @@ class RoomInventory {
         }
     }
 
-    // 🔥 ================= UC9 METHODS (ADD ONLY) =================
+    // 🔥 ================= UC9 METHODS =================
 
     // Check if room type exists
     public boolean hasRoomType(String roomType) {
@@ -47,5 +47,11 @@ class RoomInventory {
         return rooms.getOrDefault(roomType, 0) > 0;
     }
 
-    // 🔥 ==========================================================
+    // 🔥 ================= UC10 METHOD =================
+
+    // Release room (rollback)
+    public void releaseRoom(String roomType) {
+        rooms.put(roomType, rooms.getOrDefault(roomType, 0) + 1);
+    }
+
 }
