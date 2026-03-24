@@ -56,14 +56,11 @@ public class HotelBookingApp {
                 );
 
                 history.addReservation(reservation);
-
                 history.displayHistory();
-
                 reportService.generateReport(history);
 
                 // 🔥 ================= UC10 =================
                 cancelService.cancelReservation(reservationId, history, inventory);
-
                 cancelService.displayRollbackStack();
             }
 
@@ -72,6 +69,31 @@ public class HotelBookingApp {
             // 🔥 UC9 Error Handling
             System.out.println("Booking Failed: " + e.getMessage());
         }
+
+        // 🔥 ================= UC11 START =================
+
+        System.out.println("\n--- Concurrent Booking Simulation ---");
+
+        Thread t1 = new Thread(new BookingTask(inventory, "Alice", "Single"));
+        Thread t2 = new Thread(new BookingTask(inventory, "Bob", "Single"));
+        Thread t3 = new Thread(new BookingTask(inventory, "Charlie", "Single"));
+        Thread t4 = new Thread(new BookingTask(inventory, "David", "Single"));
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+            t4.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // 🔥 ================= UC11 END =================
 
         // ✅ Final inventory state
         System.out.println("\nUpdated Inventory:");

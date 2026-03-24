@@ -14,8 +14,8 @@ class RoomInventory {
         rooms.put("Suite", 2);
     }
 
-    // ✅ UC6: Allocate room
-    public boolean allocateRoom(String roomType) {
+    // 🔥 UC11: THREAD-SAFE METHOD (IMPORTANT)
+    public synchronized boolean allocateRoom(String roomType) {
 
         if (rooms.containsKey(roomType) && rooms.get(roomType) > 0) {
             rooms.put(roomType, rooms.get(roomType) - 1);
@@ -35,23 +35,18 @@ class RoomInventory {
         }
     }
 
-    // 🔥 ================= UC9 METHODS =================
+    // 🔥 UC9 METHODS
 
-    // Check if room type exists
     public boolean hasRoomType(String roomType) {
         return rooms.containsKey(roomType);
     }
 
-    // Check if room is available
     public boolean isAvailable(String roomType) {
         return rooms.getOrDefault(roomType, 0) > 0;
     }
 
-    // 🔥 ================= UC10 METHOD =================
-
-    // Release room (rollback)
+    // 🔥 UC10 METHOD (Rollback)
     public void releaseRoom(String roomType) {
         rooms.put(roomType, rooms.getOrDefault(roomType, 0) + 1);
     }
-
 }
