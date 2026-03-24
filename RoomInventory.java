@@ -1,7 +1,10 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-class RoomInventory {
+class RoomInventory implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Map<String, Integer> rooms;
 
@@ -14,7 +17,7 @@ class RoomInventory {
         rooms.put("Suite", 2);
     }
 
-    // 🔥 UC11: THREAD-SAFE METHOD (IMPORTANT)
+    // 🔥 UC11: THREAD-SAFE METHOD
     public synchronized boolean allocateRoom(String roomType) {
 
         if (rooms.containsKey(roomType) && rooms.get(roomType) > 0) {

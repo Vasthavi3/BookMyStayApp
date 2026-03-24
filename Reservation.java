@@ -1,4 +1,7 @@
-class Reservation {
+import java.io.Serializable;
+
+class Reservation implements Serializable {
+
     private String reservationId;
     private String guestName;
     private String roomType;
@@ -9,15 +12,7 @@ class Reservation {
         this.roomType = roomType;
     }
 
-    public String getReservationId() {
-        return reservationId;
-    }
-
-    public String getGuestName() {
-        return guestName;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
+    public String getReservationId() { return reservationId; }
+    public String getGuestName() { return guestName; }
+    public String getRoomType() { return roomType; }
 }
