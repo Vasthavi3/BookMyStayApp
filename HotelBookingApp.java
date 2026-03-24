@@ -6,21 +6,27 @@ public class HotelBookingApp {
         BookingRequest request = new BookingRequest("Vasthavi", "Single");
 
         AddOnServiceManager serviceManager = new AddOnServiceManager();
-
-        // 🔥 UC8 objects
         BookingHistory history = new BookingHistory();
         BookingReportService reportService = new BookingReportService();
 
         String reservationId = "R101";
 
-        if (request != null) {
+        try {
+
+            if (request == null) {
+                throw new InvalidBookingException("Booking request is null!");
+            }
 
             String roomType = request.getRoomType();
+
+            // 🔥 UC9 VALIDATION
+            BookingValidator.validate(roomType, inventory);
 
             System.out.println("Guest: " + request.getGuestName());
             System.out.println("Requested Room: " + roomType);
 
             if (inventory.allocateRoom(roomType)) {
+
                 System.out.println("Reservation Confirmed!");
 
                 // ✅ UC7
@@ -31,8 +37,7 @@ public class HotelBookingApp {
                 int totalCost = serviceManager.calculateTotalCost(reservationId);
                 System.out.println("Total Add-On Cost: ₹" + totalCost);
 
-                // 🔥 ================= UC8 START =================
-
+                // ✅ UC8
                 Reservation reservation = new Reservation(
                         reservationId,
                         request.getGuestName(),
@@ -40,16 +45,15 @@ public class HotelBookingApp {
                 );
 
                 history.addReservation(reservation);
-
                 history.displayHistory();
-
                 reportService.generateReport(history);
 
-                // 🔥 ================= UC8 END =================
-
-            } else {
-                System.out.println("Room Not Available.");
             }
+
+        } catch (InvalidBookingException e) {
+
+            // 🔥 UC9 ERROR HANDLING
+            System.out.println("Booking Failed: " + e.getMessage());
         }
 
         System.out.println("\nUpdated Inventory:");
