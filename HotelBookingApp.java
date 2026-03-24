@@ -2,9 +2,16 @@ public class HotelBookingApp {
 
     public static void main(String[] args) {
 
-        // ✅ Existing UC6 objects (DO NOT REMOVE)
         RoomInventory inventory = new RoomInventory();
         BookingRequest request = new BookingRequest("Vasthavi", "Single");
+
+        AddOnServiceManager serviceManager = new AddOnServiceManager();
+
+        // 🔥 UC8 objects
+        BookingHistory history = new BookingHistory();
+        BookingReportService reportService = new BookingReportService();
+
+        String reservationId = "R101";
 
         if (request != null) {
 
@@ -16,32 +23,35 @@ public class HotelBookingApp {
             if (inventory.allocateRoom(roomType)) {
                 System.out.println("Reservation Confirmed!");
 
-                // 🔥 ================= UC7 START =================
+                // ✅ UC7
+                serviceManager.addService(reservationId, new Service("Breakfast", 200));
+                serviceManager.addService(reservationId, new Service("WiFi", 100));
 
-                AddOnServiceManager manager = new AddOnServiceManager();
-
-                String reservationId = "R101";
-
-                // Add multiple services
-                manager.addService(reservationId, new Service("Breakfast", 200));
-                manager.addService(reservationId, new Service("WiFi", 100));
-                manager.addService(reservationId, new Service("Airport Pickup", 500));
-
-                // Display services
-                manager.displayServices(reservationId);
-
-                // Calculate total cost
-                int totalCost = manager.calculateTotalCost(reservationId);
+                serviceManager.displayServices(reservationId);
+                int totalCost = serviceManager.calculateTotalCost(reservationId);
                 System.out.println("Total Add-On Cost: ₹" + totalCost);
 
-                // 🔥 ================= UC7 END =================
+                // 🔥 ================= UC8 START =================
+
+                Reservation reservation = new Reservation(
+                        reservationId,
+                        request.getGuestName(),
+                        roomType
+                );
+
+                history.addReservation(reservation);
+
+                history.displayHistory();
+
+                reportService.generateReport(history);
+
+                // 🔥 ================= UC8 END =================
 
             } else {
                 System.out.println("Room Not Available.");
             }
         }
 
-        // ✅ Existing UC6 output
         System.out.println("\nUpdated Inventory:");
         inventory.displayInventory();
     }
